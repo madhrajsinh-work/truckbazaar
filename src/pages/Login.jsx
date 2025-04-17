@@ -14,6 +14,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import Logo from '../assets/logo.png'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -49,44 +50,44 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     let tempErrors = {};
-  
+
     if (!formData.emailOrUsername.trim()) {
       tempErrors.emailOrUsername = 'Username or Email is required';
     }
-  
+
     if (!formData.password.trim()) {
       tempErrors.password = 'Password is required';
     }
-  
+
     if (Object.keys(tempErrors).length > 0) {
       setErrors(tempErrors);
       return;
     }
-  
+
     console.log(formData);
-  
+
     setFormData({
       emailOrUsername: '',
       password: '',
     });
-  
+
     setErrors({});
   };
-  
+
 
   return (
     <Container maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
       <Paper elevation={6} sx={{ p: 3, borderRadius: 3, width: '100%' }}>
         <Box display="flex" flexDirection="column" alignItems="center">
-          <Avatar sx={{ m: 1, bgcolor: 'primary.main', width: 40, height: 40 }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography variant="h5" fontWeight="600" color="#0d47a1">
-            TruckBazaar 🚚
-          </Typography>
-          <Typography variant="body2" color="text.secondary" align="center" mt={1}>
+          <Box
+            component="img"
+            src={Logo}
+            alt="TruckBazaar Logo"
+            sx={{ width: 150, height: 150}}
+          />
+          <Typography variant="h5" fontWeight="600" color="#0d47a1" mt={1}>
             Login
           </Typography>
         </Box>
