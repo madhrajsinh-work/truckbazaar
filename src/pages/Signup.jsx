@@ -43,8 +43,18 @@ const Signup = () => {
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters')
       .required('Password is required'),
-    phone: Yup.string().required('Phone number is required'),
+    phone: Yup.string()
+      .required('Phone number is required')
+      .test('is-valid-phone', 'Enter a valid phone number', (value) => {
+        if (!value) return false;
+  
+        const digitsOnly = value.replace(/\D/g, ''); 
+  
+        return digitsOnly.length >= 12;
+      }),
   });
+  
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,7 +76,18 @@ const Signup = () => {
 
     try {
       await validationSchema.validate(formData, { abortEarly: false });
-      alert(JSON.stringify(formData, null, 2));
+
+      console.log(formData);
+
+      // Reset form
+      setFormData({
+        username: '',
+        email: '',
+        password: '',
+        phone: '',
+      });
+
+      setErrors({});
     } catch (validationErrors) {
       const newErrors = {};
       validationErrors.inner.forEach((err) => {
@@ -75,6 +96,7 @@ const Signup = () => {
       setErrors(newErrors);
     }
   };
+
 
   return (
     <Container
@@ -124,7 +146,7 @@ const Signup = () => {
             margin="dense"
             label="Email"
             name="email"
-            type="email"
+            type="text"
             variant="outlined"
             value={formData.email}
             onChange={handleChange}

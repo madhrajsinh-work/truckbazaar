@@ -49,24 +49,32 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     let tempErrors = {};
-
+  
     if (!formData.emailOrUsername.trim()) {
       tempErrors.emailOrUsername = 'Username or Email is required';
     }
-
+  
     if (!formData.password.trim()) {
       tempErrors.password = 'Password is required';
     }
-
+  
     if (Object.keys(tempErrors).length > 0) {
       setErrors(tempErrors);
       return;
     }
-
-    alert(JSON.stringify(formData, null, 2));
+  
+    console.log(formData);
+  
+    setFormData({
+      emailOrUsername: '',
+      password: '',
+    });
+  
+    setErrors({});
   };
+  
 
   return (
     <Container maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
