@@ -97,7 +97,7 @@ const Login = () => {
             error={!!errors.password}
             helperText={errors.password}
           />
-          <Box display="flex" justifyContent="end" mt={1}>
+          <Box display="flex" justifyContent="end">
             <MuiLink href="#" variant="body2">
               Forgot password?
             </MuiLink>
@@ -119,7 +119,7 @@ const Login = () => {
             Login
           </Button>
 
-          <Box display="flex" justifyContent="center" mt={1}>
+          <Box display="flex" justifyContent="center">
             <MuiLink
               component={RouterLink}
               to="/signup"

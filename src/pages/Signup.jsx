@@ -13,6 +13,9 @@ import { Google, Facebook, Twitter } from '@mui/icons-material';
 import * as Yup from 'yup';
 import { Link as RouterLink } from 'react-router-dom';
 import { Link as MuiLink } from '@mui/material';
+import 'react-phone-input-2/lib/material.css';
+import PhoneInput from 'react-phone-input-2';
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -81,7 +84,6 @@ const Signup = () => {
           p: 3,
           width: '100%',
           borderRadius: 3,
-          backgroundColor: '#f9fafb',
         }}
       >
         <Box textAlign="center" mb={2}>
@@ -132,19 +134,37 @@ const Signup = () => {
             error={!!errors.password}
             helperText={errors.password}
           />
-          <TextField
-            fullWidth
-            size="small"
-            margin="dense"
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            variant="outlined"
-            value={formData.phone}
-            onChange={handleChange}
-            error={!!errors.phone}
-            helperText={errors.phone}
-          />
+
+          <Box mt={1} mb={1}>
+            <PhoneInput
+              country={'in'}
+              value={formData.phone}
+              onChange={(value) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  phone: value,
+                }))
+              }
+              inputStyle={{
+                width: '100%',
+                height: '40px',
+                fontSize: '14px',
+              }}
+              inputProps={{
+                name: 'phone',
+                required: true,
+                autoFocus: false,
+              }}
+              containerStyle={{ width: '100%' }}
+              specialLabel="" 
+              isValid={() => (errors.phone ? '' : true)}
+            />
+            {errors.phone && (
+              <Typography variant="caption" color="error">
+                {errors.phone}
+              </Typography>
+            )}
+          </Box>
 
           <Button
             fullWidth
@@ -217,14 +237,14 @@ const Signup = () => {
         </Grid>
 
         <Box mt={2} textAlign="center">
-            <MuiLink
-              component={RouterLink}
-               variant="body2"
-              underline="hover"
-              to="/"
-            >
-             Already have an account? Login
-            </MuiLink>
+          <MuiLink
+            component={RouterLink}
+            variant="body2"
+            underline="hover"
+            to="/"
+          >
+            Already have an account? Login
+          </MuiLink>
         </Box>
       </Paper>
     </Container>
