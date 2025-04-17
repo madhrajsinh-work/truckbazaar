@@ -18,8 +18,7 @@ import PhoneInput from 'react-phone-input-2';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
-
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -48,13 +47,9 @@ const Signup = () => {
       .test('is-valid-phone', 'Enter a valid phone number', (value) => {
         if (!value) return false;
   
-        const digitsOnly = value.replace(/\D/g, ''); 
-  
-        return digitsOnly.length >= 12;
+        return isValidPhoneNumber('+' + value); 
       }),
   });
-  
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,10 +59,21 @@ const Signup = () => {
       [name]: value,
     }));
 
-    // Clear specific error on value change
     setErrors((prev) => ({
       ...prev,
       [name]: '',
+    }));
+  };
+
+  const handlePhoneChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      phone: value,
+    }));
+  
+    setErrors((prev) => ({
+      ...prev,
+      phone: '',
     }));
   };
 
@@ -84,7 +90,7 @@ const Signup = () => {
         username: '',
         email: '',
         password: '',
-        phone: '',
+        phone: '+91',
       });
 
       setErrors({});
@@ -183,12 +189,7 @@ const Signup = () => {
             <PhoneInput
               country={'in'}
               value={formData.phone}
-              onChange={(value) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  phone: value,
-                }))
-              }
+              onChange={handlePhoneChange}
               inputStyle={{
                 width: '100%',
                 height: '40px',
