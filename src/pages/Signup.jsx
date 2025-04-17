@@ -15,6 +15,10 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Link as MuiLink } from '@mui/material';
 import 'react-phone-input-2/lib/material.css';
 import PhoneInput from 'react-phone-input-2';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+
 
 
 const Signup = () => {
@@ -26,6 +30,12 @@ const Signup = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
 
   const validationSchema = Yup.object({
     username: Yup.string().required('Username is required'),
@@ -127,14 +137,26 @@ const Signup = () => {
             margin="dense"
             label="Password"
             name="password"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             variant="outlined"
             value={formData.password}
             onChange={handleChange}
             error={!!errors.password}
             helperText={errors.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleTogglePassword}
+                    edge="end"
+                    size="small"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
-
           <Box mt={1} mb={1}>
             <PhoneInput
               country={'in'}
@@ -156,7 +178,7 @@ const Signup = () => {
                 autoFocus: false,
               }}
               containerStyle={{ width: '100%' }}
-              specialLabel="" 
+              specialLabel=""
               isValid={() => (errors.phone ? '' : true)}
             />
             {errors.phone && (

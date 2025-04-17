@@ -11,6 +11,9 @@ import {
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link as RouterLink } from 'react-router-dom';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,6 +25,13 @@ const Login = () => {
     emailOrUsername: '',
     password: '',
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,16 +97,31 @@ const Login = () => {
           />
           <TextField
             fullWidth
-            margin="normal"
-            label="Password"
-            type="password"
-            name="password"
             size="small"
+            margin="dense"
+            label="Password"
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            variant="outlined"
             value={formData.password}
             onChange={handleChange}
             error={!!errors.password}
             helperText={errors.password}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleTogglePassword}
+                    edge="end"
+                    size="small"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
+
           <Box display="flex" justifyContent="end">
             <MuiLink href="#" variant="body2">
               Forgot password?
