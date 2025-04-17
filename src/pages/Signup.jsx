@@ -11,7 +11,8 @@ import {
 } from '@mui/material';
 import { Google, Facebook, Twitter } from '@mui/icons-material';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link as MuiLink } from '@mui/material';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -168,7 +169,7 @@ const Signup = () => {
         <Divider sx={{ my: 2, fontSize: '0.75rem' }}>Or sign up with</Divider>
 
         <Grid container spacing={1} display="flex" justifyContent="center">
-          <Grid item xs={4}>
+          <Grid>
             <Button
               fullWidth
               size="small"
@@ -183,7 +184,7 @@ const Signup = () => {
               Google
             </Button>
           </Grid>
-          <Grid item xs={4}>
+          <Grid>
             <Button
               fullWidth
               size="small"
@@ -198,7 +199,7 @@ const Signup = () => {
               Facebook
             </Button>
           </Grid>
-          <Grid item xs={4}>
+          <Grid>
             <Button
               fullWidth
               size="small"
@@ -216,17 +217,14 @@ const Signup = () => {
         </Grid>
 
         <Box mt={2} textAlign="center">
-          <Typography variant="caption">
-            Already have an account?{' '}
-            <Button
-              component={Link}
+            <MuiLink
+              component={RouterLink}
+               variant="body2"
+              underline="hover"
               to="/"
-              size="small"
-              sx={{ fontSize: '0.75rem', textTransform: 'none' }}
             >
-              Login
-            </Button>
-          </Typography>
+             Already have an account? Login
+            </MuiLink>
         </Box>
       </Paper>
     </Container>
