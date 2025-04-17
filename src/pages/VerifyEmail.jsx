@@ -80,7 +80,6 @@ const VerifyEmail = () => {
       
         setError('');
       };
-      
 
     const handleResend = () => {
         setResendTimer(60);

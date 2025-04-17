@@ -74,7 +74,6 @@ const Login = () => {
     setErrors({});
   };
 
-
   return (
     <Container maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
       <Paper elevation={6} sx={{ p: 3, borderRadius: 3, width: '100%' }}>
