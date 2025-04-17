@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
@@ -10,32 +10,57 @@ import {
   Divider,
 } from '@mui/material';
 import { Google, Facebook, Twitter } from '@mui/icons-material';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
-  const navigate = useNavigate();
-
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      email: '',
-      password: '',
-      phone: '',
-    },
-    validationSchema: Yup.object({
-      username: Yup.string().required('Username is required'),
-      email: Yup.string().email('Invalid email').required('Email is required'),
-      password: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .required('Password is required'),
-      phone: Yup.string().required('Phone number is required'),
-    }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    phone: '',
   });
+
+  const [errors, setErrors] = useState({});
+
+  const validationSchema = Yup.object({
+    username: Yup.string().required('Username is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    phone: Yup.string().required('Phone number is required'),
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // Clear specific error on value change
+    setErrors((prev) => ({
+      ...prev,
+      [name]: '',
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await validationSchema.validate(formData, { abortEarly: false });
+      alert(JSON.stringify(formData, null, 2));
+    } catch (validationErrors) {
+      const newErrors = {};
+      validationErrors.inner.forEach((err) => {
+        newErrors[err.path] = err.message;
+      });
+      setErrors(newErrors);
+    }
+  };
 
   return (
     <Container
@@ -67,7 +92,7 @@ const Signup = () => {
           </Typography>
         </Box>
 
-        <Box component="form" onSubmit={formik.handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
           <TextField
             fullWidth
             size="small"
@@ -75,10 +100,10 @@ const Signup = () => {
             label="Username"
             name="username"
             variant="outlined"
-            value={formik.values.username}
-            onChange={formik.handleChange}
-            error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username}
+            value={formData.username}
+            onChange={handleChange}
+            error={!!errors.username}
+            helperText={errors.username}
           />
           <TextField
             fullWidth
@@ -88,10 +113,10 @@ const Signup = () => {
             name="email"
             type="email"
             variant="outlined"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
+            value={formData.email}
+            onChange={handleChange}
+            error={!!errors.email}
+            helperText={errors.email}
           />
           <TextField
             fullWidth
@@ -101,10 +126,10 @@ const Signup = () => {
             name="password"
             type="password"
             variant="outlined"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            value={formData.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
           />
           <TextField
             fullWidth
@@ -114,11 +139,12 @@ const Signup = () => {
             name="phone"
             type="tel"
             variant="outlined"
-            value={formik.values.phone}
-            onChange={formik.handleChange}
-            error={formik.touched.phone && Boolean(formik.errors.phone)}
-            helperText={formik.touched.phone && formik.errors.phone}
+            value={formData.phone}
+            onChange={handleChange}
+            error={!!errors.phone}
+            helperText={errors.phone}
           />
+
           <Button
             fullWidth
             type="submit"
@@ -141,7 +167,7 @@ const Signup = () => {
 
         <Divider sx={{ my: 2, fontSize: '0.75rem' }}>Or sign up with</Divider>
 
-        <Grid container spacing={1}>
+        <Grid container spacing={1} display="flex" justifyContent="center">
           <Grid item xs={4}>
             <Button
               fullWidth
@@ -193,7 +219,8 @@ const Signup = () => {
           <Typography variant="caption">
             Already have an account?{' '}
             <Button
-              onClick={() => navigate('/')}
+              component={Link}
+              to="/"
               size="small"
               sx={{ fontSize: '0.75rem', textTransform: 'none' }}
             >

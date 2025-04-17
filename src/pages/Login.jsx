@@ -1,35 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Button,
   Container,
   TextField,
   Typography,
-  Link,
+  Link as MuiLink,
   Paper,
   Avatar,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Login = () => {
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    emailOrUsername: '',
+    password: '',
+  });
 
-  const formik = useFormik({
-    initialValues: {
-      emailOrUsername: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      emailOrUsername: Yup.string().required('Username or Email is required'),
-      password: Yup.string().required('Password is required'),
-    }),
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });   
+  const [errors, setErrors] = useState({
+    emailOrUsername: '',
+    password: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: '',
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    let tempErrors = {};
+
+    if (!formData.emailOrUsername.trim()) {
+      tempErrors.emailOrUsername = 'Username or Email is required';
+    }
+
+    if (!formData.password.trim()) {
+      tempErrors.password = 'Password is required';
+    }
+
+    if (Object.keys(tempErrors).length > 0) {
+      setErrors(tempErrors);
+      return;
+    }
+
+    alert(JSON.stringify(formData, null, 2));
+  };
 
   return (
     <Container maxWidth="xs" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
@@ -39,25 +66,24 @@ const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography variant="h5" fontWeight="600" color="#0d47a1">
-                      TruckBazaar 🚚
-            </Typography>
+            TruckBazaar 🚚
+          </Typography>
           <Typography variant="body2" color="text.secondary" align="center" mt={1}>
-            {/* Please enter your credentials to access your trucking dashboard */}
             Login
           </Typography>
         </Box>
 
-        <Box component="form" onSubmit={formik.handleSubmit} mt={2}>
+        <Box component="form" onSubmit={handleSubmit} mt={2}>
           <TextField
             fullWidth
             margin="normal"
             label="Username or Email"
             name="emailOrUsername"
             size="small"
-            value={formik.values.emailOrUsername}
-            onChange={formik.handleChange}
-            error={formik.touched.emailOrUsername && Boolean(formik.errors.emailOrUsername)}
-            helperText={formik.touched.emailOrUsername && formik.errors.emailOrUsername}
+            value={formData.emailOrUsername}
+            onChange={handleChange}
+            error={!!errors.emailOrUsername}
+            helperText={errors.emailOrUsername}
           />
           <TextField
             fullWidth
@@ -66,16 +92,16 @@ const Login = () => {
             type="password"
             name="password"
             size="small"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            value={formData.password}
+            onChange={handleChange}
+            error={!!errors.password}
+            helperText={errors.password}
           />
-            <Box display="flex" justifyContent="end" mt={1}>
-                <Link href="#" variant="body2">
-                Forgot password?
-                </Link>
-            </Box>
+          <Box display="flex" justifyContent="end" mt={1}>
+            <MuiLink href="#" variant="body2">
+              Forgot password?
+            </MuiLink>
+          </Box>
           <Button
             fullWidth
             variant="contained"
@@ -94,14 +120,14 @@ const Login = () => {
           </Button>
 
           <Box display="flex" justifyContent="center" mt={1}>
-            
-            <Link
-              component="button"
+            <MuiLink
+              component={RouterLink}
+              to="/signup"
               variant="body2"
-              onClick={() => navigate('/signup')}
+              underline="hover"
             >
               Don’t have an account? Sign Up
-            </Link>
+            </MuiLink>
           </Box>
         </Box>
       </Paper>

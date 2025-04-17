@@ -3,4 +3,6 @@
   padding: 0px;
   box-sizing: border-box;
 }
-
+.css-2s8ubb-MuiFormHelperText-root.Mui-error{
+  margin: 3px 0px 0px 0px!important;
+}
