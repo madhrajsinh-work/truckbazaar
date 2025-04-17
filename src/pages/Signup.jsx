@@ -19,8 +19,11 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { isValidPhoneNumber } from 'libphonenumber-js';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -35,7 +38,6 @@ const Signup = () => {
     setShowPassword((prev) => !prev);
   };
 
-
   const validationSchema = Yup.object({
     username: Yup.string().required('Username is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -46,8 +48,8 @@ const Signup = () => {
       .required('Phone number is required')
       .test('is-valid-phone', 'Enter a valid phone number', (value) => {
         if (!value) return false;
-  
-        return isValidPhoneNumber('+' + value); 
+
+        return isValidPhoneNumber('+' + value);
       }),
   });
 
@@ -70,7 +72,7 @@ const Signup = () => {
       ...prev,
       phone: value,
     }));
-  
+
     setErrors((prev) => ({
       ...prev,
       phone: '',
@@ -85,7 +87,8 @@ const Signup = () => {
 
       console.log(formData);
 
-      // Reset form
+      navigate('/verify-email', { state: { email: formData.email } });
+
       setFormData({
         username: '',
         email: '',
@@ -102,7 +105,6 @@ const Signup = () => {
       setErrors(newErrors);
     }
   };
-
 
   return (
     <Container

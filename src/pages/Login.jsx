@@ -7,9 +7,7 @@ import {
   Typography,
   Link as MuiLink,
   Paper,
-  Avatar,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link as RouterLink } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
@@ -85,14 +83,14 @@ const Login = () => {
             component="img"
             src={Logo}
             alt="TruckBazaar Logo"
-            sx={{ width: 150, height: 150}}
+            sx={{ width: 100, height: 100}}
           />
-          <Typography variant="h5" fontWeight="600" color="#0d47a1" mt={1}>
+          <Typography variant="h7" fontWeight="600" color="#0d47a1">
             Login
           </Typography>
         </Box>
 
-        <Box component="form" onSubmit={handleSubmit} mt={2}>
+        <Box component="form" onSubmit={handleSubmit}>
           <TextField
             fullWidth
             margin="normal"
