@@ -20,6 +20,7 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../assets/Logo1.png'
 
 const Signup = () => {
 
@@ -126,12 +127,16 @@ const Signup = () => {
           borderRadius: 3,
         }}
       >
-        <Box textAlign="center" mb={2}>
-          <Typography variant="h5" fontWeight="600" color="#0d47a1" gutterBottom>
-            TruckBazaar 🚚
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Create account to continue
+        <Box display="flex" flexDirection="column" alignItems="center">
+          <Box
+            component="img"
+            src={Logo}
+            alt="TruckBazaar Logo"
+            sx={{ width: 100, height: 100 }}
+            style={{ scale: '1.2' }}
+          />
+          <Typography variant="h6" fontWeight="600" color="#0d47a1">
+            Sign Up
           </Typography>
         </Box>
 

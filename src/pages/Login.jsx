@@ -12,7 +12,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import Logo from '../assets/logo.png'
+import Logo from '../assets/Logo1.png'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -83,8 +83,9 @@ const Login = () => {
             src={Logo}
             alt="TruckBazaar Logo"
             sx={{ width: 100, height: 100}}
+            style={{scale:'1.2'}}
           />
-          <Typography variant="h7" fontWeight="600" color="#0d47a1">
+          <Typography variant="h6" fontWeight="600" color="#0d47a1">
             Login
           </Typography>
         </Box>
